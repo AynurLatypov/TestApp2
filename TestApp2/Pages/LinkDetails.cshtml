@@ -1,0 +1,70 @@
+﻿@page
+@using TestApp2.Helper
+@model TestApp2.Pages.LinkDetailsModel
+
+@{
+    ViewData["Title"] = "Ссылка";
+}
+
+<h1>Детали ссылки</h1>
+
+<div>
+    @*<h4>@GuidHelper.ToShortString(Model.LinkEntity.Id)</h4>*@
+    <hr />
+    <dl class="row">
+                <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkEntity.ShortUrl)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkEntity.ShortUrl)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkEntity.Url)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkEntity.Url)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkEntity.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkEntity.CreatedAt)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="MyLinks">К списку ссылок</a>
+</div>
+    <hr />
+
+    <h4>Список посетителей</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.History[0].IpAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.History[0].UserAgent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.History[0].CreatedAt)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.History) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IpAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserAgent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

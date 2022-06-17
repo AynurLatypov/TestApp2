@@ -1,0 +1,49 @@
+﻿@page
+@model TestApp2.Pages.MyLinksModel
+
+@{
+    ViewData["Title"] = "Ссылки";
+}
+
+<h1>Ссылки</h1>
+
+<p>
+    <a asp-page="NewLink">Создать новую</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.LinkEntity[0].ShortId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LinkEntity[0].Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LinkEntity[0].Count)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.LinkEntity) {
+        <tr>
+            <td>
+                <a href="/@item.ShortId" target="_blank" rel="noopener noreferrer">
+                    @Html.DisplayFor(modelItem => item.ShortId)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                <a asp-page="LinkDetails" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

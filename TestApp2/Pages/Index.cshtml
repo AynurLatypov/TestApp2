@@ -1,0 +1,24 @@
+﻿@page
+@using TestApp2.Data.Models
+@inject SignInManager<AppUserEntity> signInManager
+@model IndexModel
+@{
+    ViewData["Title"] = "Сервис коротких ссылок";
+}
+
+<div class="text-center">
+    @if (signInManager.IsSignedIn(User))
+    {
+        <h1 class="display-4">Привет</h1>
+        <p>Можешь создать короткую ссылку <a asp-page="NewLink">тут</a>.</p>
+        <p>А <a asp-page="NewLink">здесь</a> можешь посмотреть уже созданные.</p>
+    }
+    else
+    {
+        <h1 class="display-4">Привет</h1>
+        
+        <p>Для использования сервиса нужно иметь аккаунт <a asp-page="NewLink">тут</a> можно его создать.
+             А <a asp-page="NewLink">здесь</a> можешь авторизоваться.</p>
+    }
+
+</div>
