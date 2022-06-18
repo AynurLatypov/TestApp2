@@ -3,14 +3,32 @@
 @inject SignInManager<AppUserEntity> SignInManager
 @inject UserManager<AppUserEntity> UserManager
 
-<ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-        var email = User.Identity?.Name;
-        var username = email?.Substring(0, email.IndexOf('@')) ?? "";
-        <li class="nav-item">
-        <a  class="nav-link text-dark" asp-page="/MyLinks" title="My links">Мои ссылки</a>
+@{
+    var isSignedIn = SignInManager.IsSignedIn(User);
+
+    var email = User?.Identity?.Name;
+    var username = isSignedIn ? email?.Substring(0, email.IndexOf('@')) ?? "" : "";
+}
+
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Главная</a>
     </li>
+    @if(isSignedIn)
+    {
+        
+    <li class="nav-item">
+        <a  class="nav-link text-dark" asp-page="/Links" title="My links">Cсылки</a>
+    </li>
+        <li class="nav-item">
+        <a  class="nav-link text-dark" asp-page="/Token" title="Tokens">API ключи</a>
+    </li>
+    }
+</ul>
+
+<ul class="navbar-nav">
+@if (isSignedIn)
+{
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Привет, @username!</a>
     </li>

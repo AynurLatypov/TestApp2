@@ -12,9 +12,9 @@ namespace TestApp2.Pages;
 
 public class LinkDetailsModel : PageModel
 {
-    private readonly TestApp2.Data.ApplicationDbContext _context;
+    private readonly AppDbContext _context;
 
-    public LinkDetailsModel(TestApp2.Data.ApplicationDbContext context)
+    public LinkDetailsModel(AppDbContext context)
     {
         _context = context;
     }
@@ -22,7 +22,7 @@ public class LinkDetailsModel : PageModel
     public LinkEntity LinkEntity { get; set; } = default!;
     public IList<LinkEntryEntity> History { get; set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id == null || _context.Links == null)
         {
@@ -32,15 +32,12 @@ public class LinkDetailsModel : PageModel
         var linkentity = await _context.Links
             .Include(x => x.History)
             .FirstOrDefaultAsync(m => m.Id == id);
+
         if (linkentity == null)
-        {
             return NotFound();
-        }
-        else
-        {
-            LinkEntity = linkentity;
-            History = linkentity.History;
-        }
+     
+        LinkEntity = linkentity;
+        History = linkentity.History;
         return Page();
     }
 }

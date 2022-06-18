@@ -7,18 +7,34 @@
 }
 
 <div class="text-center">
-    @if (signInManager.IsSignedIn(User))
-    {
-        <h1 class="display-4">Привет</h1>
-        <p>Можешь создать короткую ссылку <a asp-page="NewLink">тут</a>.</p>
-        <p>А <a asp-page="NewLink">здесь</a> можешь посмотреть уже созданные.</p>
-    }
-    else
-    {
-        <h1 class="display-4">Привет</h1>
+@if (signInManager.IsSignedIn(User))
+{
+    <h1 class="display-4">Привет</h1>
+    <p>Можешь посмотреть ссылки и создать новую <a asp-page="Links">тут</a>.</p>
+
+    <hr />
+<p>
+    Для доступа к API необходимо получить API Key (получить можешь его <a asp-page="Token">тут</a>).
+    <br />
+    API Key необходимо передавать параметром в строке запроса ?apikey={...}
+
+    <hr />
+    GET /api/link - получить список всех ссылок
+    <hr />
+    GET /api/link/{shortId} - получить ссылку со статистикой, shortId - короткий идентификатор
+    <hr />
+    POST /api/link - создать новую ссылку
+    <br/>
+    Body: <code>{ "url": "https://tatap.ru" } </code>
+</p>
+}
+else
+{
+    <h1 class="display-4">Привет</h1>
         
-        <p>Для использования сервиса нужно иметь аккаунт <a asp-page="NewLink">тут</a> можно его создать.
-             А <a asp-page="NewLink">здесь</a> можешь авторизоваться.</p>
-    }
+    <p>Для использования сервиса нужно иметь аккаунт можно его создать <a asp-area="Identity" asp-page="/Account/Register">тут</a>.</p>
+    <p>
+            А <a asp-area="Identity" asp-page="/Account/Login">здесь</a> можешь авторизоваться.</p>
+}
 
 </div>

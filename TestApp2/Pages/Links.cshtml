@@ -1,15 +1,30 @@
 ﻿@page
-@model TestApp2.Pages.MyLinksModel
-
-@{
-    ViewData["Title"] = "Ссылки";
-}
+@model TestApp2.Pages.LinksModel
 
 <h1>Ссылки</h1>
 
-<p>
-    <a asp-page="NewLink">Создать новую</a>
-</p>
+<hr />
+<div class="row">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="text-danger">@Model.ErrorMessage</div>
+        }
+        <div class="row">
+        <div class="form-group col-md-10">
+            <input asp-for="CreateUrl" class="form-control" placeholder="URL e.g. https://docs.microsoft.com/ru-ru/dotnet"/>
+            <span asp-validation-for="CreateUrl" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-1">
+            <input type="submit" value="Создать" class="btn btn-primary" />
+        </div>
+</div>
+</form>
+</div>
+
+<hr />
+
 <table class="table">
     <thead>
         <tr>
@@ -41,7 +56,8 @@
                 @Html.DisplayFor(modelItem => item.Count)
             </td>
             <td>
-                <a asp-page="LinkDetails" asp-route-id="@item.Id">Details</a>
+                <a href="#" onclick="toClipboard('@item.ShortId')" style="cursor: pointer" >Копировать</a> |
+                <a asp-page="LinkDetails" asp-route-id="@item.Id">Подробнее</a>
             </td>
         </tr>
 }

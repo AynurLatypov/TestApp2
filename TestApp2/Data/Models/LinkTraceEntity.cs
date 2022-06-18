@@ -8,9 +8,8 @@ public class LinkEntryEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public int Id { get; set; }
 
-    public virtual LinkEntity Link { get; set; }
 
     [DisplayName("Время")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -20,4 +19,9 @@ public class LinkEntryEntity
 
     [DisplayName("user-agent")]
     public string? UserAgent { get; set; }
+
+    public int LinkId { get; set; }
+
+    [ForeignKey(nameof(LinkId))]
+    public virtual LinkEntity Link { get; set; }
 }

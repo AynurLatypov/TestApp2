@@ -2,14 +2,9 @@
 @using TestApp2.Helper
 @model TestApp2.Pages.LinkDetailsModel
 
-@{
-    ViewData["Title"] = "Ссылка";
-}
-
 <h1>Детали ссылки</h1>
 
 <div>
-    @*<h4>@GuidHelper.ToShortString(Model.LinkEntity.Id)</h4>*@
     <hr />
     <dl class="row">
                 <dt class="col-sm-2">
@@ -33,7 +28,7 @@
     </dl>
 </div>
 <div>
-    <a asp-page="MyLinks">К списку ссылок</a>
+    <a asp-page="Links">К списку ссылок</a>
 </div>
     <hr />
 

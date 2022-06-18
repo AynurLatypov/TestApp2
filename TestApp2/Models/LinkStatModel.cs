@@ -5,10 +5,10 @@ namespace TestApp2.Models;
 
 public class LinkStatModel
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     [DisplayName("Короткая ссылка")]
-    public string ShortId => GuidHelper.ToShortString(Id);
+    public string ShortId => ShortLinkHelper.ToString(Id);
 
     [DisplayName("Ссылка")]
     public string Url { get; set; }

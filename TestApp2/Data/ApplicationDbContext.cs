@@ -2,17 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using TestApp2.Data.Models;
 
-namespace TestApp2.Data
+namespace TestApp2.Data;
+
+public class AppDbContext : IdentityDbContext<AppUserEntity>
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUserEntity>
+    public DbSet<LinkEntity> Links { get; set; }
+
+    public DbSet<LinkEntryEntity> LinkHistory { get; set; }
+
+    public DbSet<ApiTokenEntity> ApiTokens { get; set; }
+
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
     {
-        public DbSet<LinkEntity> Links { get; set; }
-
-        public DbSet<LinkEntryEntity> LinkHistory { get; set; }
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
     }
+
 }

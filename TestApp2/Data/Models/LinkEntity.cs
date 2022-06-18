@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TestApp2.Helper;
@@ -10,7 +9,7 @@ public class LinkEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public int Id { get; set; }
 
     [Required]
     [MaxLength(2048)]
@@ -19,11 +18,14 @@ public class LinkEntity
 
     [NotMapped]
     [DisplayName("Короткая ссылка")]
-    public string ShortUrl => GuidHelper.ToShortString(Id);
+    public string ShortUrl => ShortLinkHelper.ToString(Id);
 
     [DisplayName("Создано")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    public string CreateById { get; set; }
+
+    [ForeignKey(nameof(CreateById))]
     public virtual AppUserEntity CreateBy { get; set; }
 
     public virtual List<LinkEntryEntity> History { get; set; } = new List<LinkEntryEntity>();

@@ -11,9 +11,9 @@ using TestApp2.Data;
 
 namespace TestApp2.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220617140657_Initial")]
-    partial class Initial
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20220618172151_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -161,6 +161,26 @@ namespace TestApp2.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("TestApp2.Data.Models.ApiTokenEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ApiTokens");
+                });
+
             modelBuilder.Entity("TestApp2.Data.Models.AppUserEntity", b =>
                 {
                     b.Property<string>("Id")
@@ -228,11 +248,14 @@ namespace TestApp2.Migrations
 
             modelBuilder.Entity("TestApp2.Data.Models.LinkEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreateById")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -252,9 +275,11 @@ namespace TestApp2.Migrations
 
             modelBuilder.Entity("TestApp2.Data.Models.LinkEntryEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -262,8 +287,8 @@ namespace TestApp2.Migrations
                     b.Property<string>("IpAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("LinkId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("LinkId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserAgent")
                         .HasColumnType("nvarchar(max)");
@@ -326,11 +351,24 @@ namespace TestApp2.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TestApp2.Data.Models.ApiTokenEntity", b =>
+                {
+                    b.HasOne("TestApp2.Data.Models.AppUserEntity", "AppUser")
+                        .WithMany("Tokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("TestApp2.Data.Models.LinkEntity", b =>
                 {
                     b.HasOne("TestApp2.Data.Models.AppUserEntity", "CreateBy")
                         .WithMany("Links")
-                        .HasForeignKey("CreateById");
+                        .HasForeignKey("CreateById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CreateBy");
                 });
@@ -349,6 +387,8 @@ namespace TestApp2.Migrations
             modelBuilder.Entity("TestApp2.Data.Models.AppUserEntity", b =>
                 {
                     b.Navigation("Links");
+
+                    b.Navigation("Tokens");
                 });
 
             modelBuilder.Entity("TestApp2.Data.Models.LinkEntity", b =>
