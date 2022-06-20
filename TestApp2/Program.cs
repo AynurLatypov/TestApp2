@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TestApp2.Data;
 using TestApp2.Data.Models;
@@ -11,7 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.WebHost.UseKestrel();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddDefaultIdentity<AppUserEntity>().AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddRazorPages();
 
@@ -20,6 +19,9 @@ builder.Services.AddScoped<ApiAuthService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.Services.GetRequiredService<AppDbContext>()
+    .Database.Migrate();
 
 if (app.Environment.IsDevelopment())
 {
