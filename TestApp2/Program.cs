@@ -11,7 +11,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.WebHost.UseKestrel();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=./mydb.db;"));
 builder.Services.AddDefaultIdentity<AppUserEntity>().AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddRazorPages();
 
@@ -20,8 +20,6 @@ builder.Services.AddScoped<ApiAuthService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
-
-DbHelper.InitDb(app.Services);
 
 if (app.Environment.IsDevelopment())
 {
