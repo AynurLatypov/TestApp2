@@ -21,6 +21,8 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+DbInit.Init(app.Services);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
