@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TestApp2.Data;
 using TestApp2.Data.Models;
+using TestApp2.Helper;
 using TestApp2.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +21,7 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-app.Services.GetRequiredService<AppDbContext>()
-    .Database.Migrate();
+DbHelper.InitDb(app.Services);
 
 if (app.Environment.IsDevelopment())
 {
