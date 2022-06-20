@@ -49,7 +49,14 @@ public class LinkController : Controller
             .Include(x => x.History)
             .FirstOrDefaultAsync(x => x.Id == id && userId == x.CreateBy.Id);
 
-        return link == null ? NotFound() : Ok(link);
+        if (link == null)
+        {
+            return NotFound();
+        }
+
+        link.History.ForEach(x => x.Link = null);
+
+        return Ok(link);
     }
 
     [HttpPost]
